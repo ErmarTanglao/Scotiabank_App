@@ -34,7 +34,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
   <body>
 
     <!-- Our application root element which contains all bootstrap-Vue elements -->
-    <div id="app" style="background-color:green">
+    <div id="app" style="background-color:red">
 
       <h2>Scotiabank App<b-badge>V-1</b-badge></h2>
 
@@ -97,28 +97,40 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
 
              </b-tab>
 
-               <b-tab title="Expense Entry">
+               <b-tab title="Deposit">
 
-                 Enter an expense: <b-form-input v-model="text1"
-                               type="text"
-                               placeholder="Expense goes here"></b-form-input>
-
-                 Enter a cost: <b-form-input v-model="text2"
+                 Enter Deposit Amount: <b-form-input v-model="text2"
                                type="text"
                                placeholder="Cost goes here"></b-form-input>
-
+                <br>
                  <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
-                      Add New Expense!
+                      Add New Deposit!
                  </b-button>
 
+                 <br>
+
+                 List of Interactions:<b-table striped hover :items="items"></b-table>
                </b-tab>
 
-               <b-tab title="Ledger">
-                   You have entered:
-                   <b-table striped hover :items="items"></b-table>
+               <b-tab title="Transfer Funds">
+                Transfer:<template>
+                  <div>
+                    <b-form-select v-model="selected" :options="options" class="mb-3">
+                    </b-form-select>
+                    <div>Selected: <strong>{{ selected }}</strong></div>
+                  </div>
+                </template>
+                <br>
+                Transfer To:<template>
+                  <div>
+                    <b-form-select v-model="selected" :options="options" class="mb-3">
+                    </b-form-select>
+                    <div>Selected: <strong>{{ selected }}</strong></div>
+                  </div>
+                </template>
                </b-tab>
 
-               <b-tab title="List">
+               <b-tab title="Goals">
                  Here is the same info in a list:
 
                  <ol>
@@ -166,9 +178,19 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           spendLittle: false,
           spendLots: false,
           items : [],
-          totalExpense : 500
+          totalExpense : 500,
+          selected: null,
+          options: [
+            { value: null, text: 'Please select an option' },
+            { value: 'a', text: 'This is First option' },
+            { value: 'b', text: 'Selected Option' },
+            { value: {'C': '3PO'}, text: 'This is an option with object value' },
+            { value: 'd', text: 'This one is disabled', disabled: true }
+          ]
 
         },
+
+        
         methods: {
 
           //Methods go here. Comma separated
