@@ -36,9 +36,9 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
     <!-- Our application root element which contains all bootstrap-Vue elements -->
     <div id="app" style="background-color:red">
 
-      <h2>Scotiabank App<b-badge>V-1</b-badge></h2>
+      <h2>Scotiabank App<b-badge>V-1.3</b-badge></h2>
 
-      <b-modal v-model="modalShowExpense">
+      <!-- <b-modal v-model="modalShowExpense">
         New Entry!<br>
         You have spent {{text2}} on {{text1}}.
       </b-modal>
@@ -59,7 +59,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
         New Entry!<br>
         You have spent way more than what you have gained.
         You should really spend less money.
-      </b-modal>
+      </b-modal> -->
 
       <!-- Tabs with card integration -->
        <b-card no-body>
@@ -94,8 +94,53 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
          </b-button>
 
          <br>
-
              </b-tab>
+
+             <b-tab title="Income Entry">
+
+                Enter income: <b-form-input v-model="text3"
+                              type="text"
+                              placeholder="Income goes here"></b-form-input>
+
+                Enter gain: <b-form-input v-model="text4"
+                              type="text"
+                              placeholder="Gain goes here"></b-form-input>
+
+                <b-button :size="size" :variant="variant" @click="buttonEventIncome" style="background-color:red">
+                     Add New Income!
+                </b-button>
+
+              </b-tab>
+
+                <b-tab title="Expense Entry">
+
+                  Enter an expense: <b-form-input v-model="text1"
+                                type="text"
+                                placeholder="Expense goes here"></b-form-input>
+
+                  Enter a cost: <b-form-input v-model="text2"
+                                type="text"
+                                placeholder="Cost goes here"></b-form-input>
+
+                  <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
+                       Add New Expense!
+                  </b-button>
+
+                </b-tab>
+                
+                <b-tab title="Bill Payments">
+
+                    Enter Payee: <b-form-input v-model="text1"
+                                  type="text"></b-form-input>
+  
+                    Enter amount: <b-form-input v-model="text2"
+                                  type="text"></b-form-input>
+  
+                    <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
+                         Add New Payment!
+                    </b-button>
+  
+                  </b-tab>
 
                <b-tab title="Transactions">
 
@@ -138,17 +183,15 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                <b-tab title="Transfer Funds">
                 Transfer:<template>
                   <div>
-                    <b-form-select v-model="selected" :options="options" class="mb-3">
+                    <b-form-select v-model="selected" :options="Accounts" class="mb-3">
                     </b-form-select>
-                    <div>Selected: <strong>{{ selected }}</strong></div>
                   </div>
                 </template>
                 <br>
                 Transfer To:<template>
                   <div>
-                    <b-form-select v-model="selected" :options="options" class="mb-3">
+                    <b-form-select v-model="selected" :options="Accounts" class="mb-3">
                     </b-form-select>
-                    <div>Selected: <strong>{{ selected }}</strong></div>
                   </div>
                 </template>
                </b-tab>
@@ -172,10 +215,6 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                       </div>
                     </div>
                   </template>
-
-                 <ol>
-                   <li v-for="item in items">{{ item }}</li>
-                 </ol>
 
                </b-tab>
 
@@ -224,17 +263,18 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           text4 : "",
           size : "",
           variant : "",
-          modalShowExpense : false,
-          modalShowIncome : false,
-          spendLittle: false,
-          spendLots: false,
           items : [],
           totalExpense : 500,
+          totalCredit: 0,
           selected: null,
           Transaction_Options: [
             { value: '10', text: '10' },
             { value: '20', text: '20' },
             { value: '30', text: '30' }
+          ],
+          Accounts: [
+            {text: 'Checking' },
+            {text: 'Saving' },
           ],
           Saving_Transations: 'off',
           Enable_Alerts: 'off',
@@ -260,15 +300,15 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             this.totalExpense -= Number(this.text2);
             this.differenceExpense = this.text4 - this.text2;
 
-            if (this.differenceExpense <= 0 && this.differenceExpense >= -99){
-                console.log("Spend Too Much");
-                this.spendLittle = !this.spendLittle;
-           }
+          //   if (this.differenceExpense <= 0 && this.differenceExpense >= -99){
+          //       console.log("Spend Too Much");
+          //       this.spendLittle = !this.spendLittle;
+          //  }
 
-            if (this.differenceExpense <= -100){
-              console.log("Spend Way Too Much");
-              this.spendLots = !this.spendLots;
-            }
+          //   if (this.differenceExpense <= -100){
+          //     console.log("Spend Way Too Much");
+          //     this.spendLots = !this.spendLots;
+          //   }
 
 
           },
