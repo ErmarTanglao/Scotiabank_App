@@ -72,19 +72,19 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
 
                Deposit Accounts: <br>
                Checking:<b-card no-body class="text-left">
-                ${{totalExpense}}
+                ${{Checking_Account}}
             </b-card>
 
             <hr>
 
             Savings:<b-card no-body class="text-left">
-              ${{totalExpense}}
+              ${{Savings_Account}}
           </b-card>
 
           <hr noshade>
 
           Scotia Visa Infinite: <b-card no-body class="text-left">
-              ${{totalExpense}}
+              ${{Total_Credit}}
           </b-card>
 
           <br>
@@ -181,6 +181,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                </b-tab>
 
                <b-tab title="Transfer Funds">
+
                 Transfer:<template>
                   <div>
                     <b-form-select v-model="selected" :options="Accounts" class="mb-3">
@@ -188,26 +189,39 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                   </div>
                 </template>
                 <br>
+
                 Transfer To:<template>
                   <div>
                     <b-form-select v-model="selected" :options="Accounts" class="mb-3">
                     </b-form-select>
                   </div>
                 </template>
+
+                <br>
+
+                Enter amount: <b-form-input v-model="text2"
+                type="text"></b-form-input>
+
+                <br>
+
+                <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
+                    Add New Payment!
+               </b-button>
                </b-tab>
 
                <b-tab title="Goals">
                  <br>
-                <div>Amount Total ${{totalExpense}}</div>
+                <div>Amount Total: ${{Total_Amount}}</div>
                 <br>
-                <div>Credit ${{totalExpense}}</div>
+                <div>Credit: ${{totalExpense}}</div>
                 <br>
                 <template>
                     <div>
                       <div v-for="bar in bars" class="row mb-1">
                         <div class="col-sm-2">{{ bar.variant }}:</div>
                         <div class="col-sm-10 pt-1">
-                          <b-progress :value="bar.value"
+                          <b-progress 
+                                      :value="bar.value"
                                       :variant="bar.variant"
                                       :key="bar.variant"
                           ></b-progress>
@@ -265,7 +279,10 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           variant : "",
           items : [],
           totalExpense : 500,
-          totalCredit: 0,
+          Total_Amount: 0,
+          Total_Credit: 0,
+          Checking_Account: 300,
+          Savings_Account: 0,
           selected: null,
           Transaction_Options: [
             { value: '10', text: '10' },
@@ -279,7 +296,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           Saving_Transations: 'off',
           Enable_Alerts: 'off',
           bars: [
-        {variant: 'Amount Total', value: 75},
+        {variant: 'a', value: 75},
         {variant: 'Credit', value: 50},
       ]
 
@@ -297,7 +314,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             var numItems = this.items.length;
             this.items.push({input1 : this.text1, input2 : this.text2});
             this.tabIndex++;
-            this.totalExpense -= Number(this.text2);
+            this.Total_Credit += Number(this.text2);
             this.differenceExpense = this.text4 - this.text2;
 
           //   if (this.differenceExpense <= 0 && this.differenceExpense >= -99){
@@ -320,9 +337,8 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             var numItems = this.items.length;
             this.items.push({input1 : this.text3, input2 : this.text4});
             this.tabIndex++;
-            this.totalExpense += Number(this.text4);
-
-
+            this.Total_Amount = Number(this.Savings_Account) + Number(this.Checking_Account);
+            this.Checking_Account += Number(this.text4);
           }
 
         }
