@@ -36,7 +36,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
     <!-- Our application root element which contains all bootstrap-Vue elements -->
     <div id="app" style="background-color:red">
 
-      <h2>Scotiabank App<b-badge>V-1.4</b-badge></h2>
+      <h2>Scotiabank App<b-badge>V-1.5</b-badge></h2>
 
       <!-- <b-modal v-model="modalShowExpense">
         New Entry!<br>
@@ -86,12 +86,6 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           Budget Safe Balance: <b-card no-body class="text-left">
             ${{Safe_Budget}}
         </b-card>
-
-          <br>
-
-          <b-button :size="size" :variant="variant" @click="" >
-              Set Goal
-         </b-button>
 
          <br>
              </b-tab>
@@ -175,7 +169,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                  Recent Transactions:<b-table striped hover :items="items"></b-table>
                </b-tab> -->
 
-               <b-tab title="Goals">
+               <!-- <b-tab title="Goals">
                  <br>
                 <div>Amount Total: ${{Total_Amount}}</div>
                 <br>
@@ -196,7 +190,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                         </div>
                       </div>
                     </div>
-                  </template>
+                  </template> -->
 
                <!-- </b-tab>
 
@@ -283,6 +277,8 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             this.items.push({input1 : this.text1, input2 : this.text2});
             this.tabIndex++;
             this.Total_Credit += Number(this.text2);
+            this.Total_Bills = Number(this.text2) + Number(this.Total_Credit);
+            this.Safe_Budget -= Number(this.Total_Bills);
           },
 
           buttonEventBill(){
