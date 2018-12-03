@@ -36,7 +36,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
     <!-- Our application root element which contains all bootstrap-Vue elements -->
     <div id="app" style="background-color:red">
 
-      <h2>Scotiabank App<b-badge>V-1.3</b-badge></h2>
+      <h2>Scotiabank App<b-badge>V-1.4</b-badge></h2>
 
       <!-- <b-modal v-model="modalShowExpense">
         New Entry!<br>
@@ -71,21 +71,21 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             <b-tab title="My Accounts">
 
                Deposit Accounts: <br>
-               Checking:<b-card no-body class="text-left">
-                ${{Checking_Account}}
+               Account Balance:<b-card no-body class="text-left">
+                ${{Chequing_Account}}
             </b-card>
-
-            <hr>
-
-            Savings:<b-card no-body class="text-left">
-              ${{Savings_Account}}
-          </b-card>
 
           <hr noshade>
 
           Scotia Visa Infinite: <b-card no-body class="text-left">
               ${{Total_Credit}}
           </b-card>
+
+          <hr noshade>
+
+          Budget Safe Balance: <b-card no-body class="text-left">
+            ${{Safe_Budget}}
+        </b-card>
 
           <br>
 
@@ -126,23 +126,18 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                        Add New Expense!
                   </b-button>
 
+                  <b-button :size="size" :variant="variant" @click="buttonEventBill" style="background-color:red">
+                    Add New Bill!
+               </b-button>
+
+                  <br>
+                  List of Expenses:<b-table striped hover :items="items"></b-table>
+
+                  <br>
+                  List of Bills:<b-table striped hover :items="bills"></b-table>
                 </b-tab>
-                
-                <b-tab title="Bill Payments">
 
-                    Enter Payee: <b-form-input v-model="text1"
-                                  type="text"></b-form-input>
-  
-                    Enter amount: <b-form-input v-model="text2"
-                                  type="text"></b-form-input>
-  
-                    <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
-                         Add New Payment!
-                    </b-button>
-  
-                  </b-tab>
-
-               <b-tab title="Transactions">
+               <!-- <b-tab title="Transactions">
 
                  Acount Summary:
                  <template>
@@ -178,36 +173,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                 </template>
                 
                  Recent Transactions:<b-table striped hover :items="items"></b-table>
-               </b-tab>
-
-               <b-tab title="Transfer Funds">
-
-                Transfer:<template>
-                  <div>
-                    <b-form-select v-model="selected" :options="Accounts" class="mb-3">
-                    </b-form-select>
-                  </div>
-                </template>
-                <br>
-
-                Transfer To:<template>
-                  <div>
-                    <b-form-select v-model="selected" :options="Accounts" class="mb-3">
-                    </b-form-select>
-                  </div>
-                </template>
-
-                <br>
-
-                Enter amount: <b-form-input v-model="text2"
-                type="text"></b-form-input>
-
-                <br>
-
-                <b-button :size="size" :variant="variant" @click="buttonEventExpense" style="background-color:red">
-                    Add New Payment!
-               </b-button>
-               </b-tab>
+               </b-tab> -->
 
                <b-tab title="Goals">
                  <br>
@@ -215,6 +181,8 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                 <br>
                 <div>Credit: ${{totalExpense}}</div>
                 <br>
+
+                
                 <template>
                     <div>
                       <div v-for="bar in bars" class="row mb-1">
@@ -230,7 +198,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
                     </div>
                   </template>
 
-               </b-tab>
+               <!-- </b-tab>
 
                <br>
 
@@ -243,7 +211,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
 
               </b-tab>
 
-           </b-tabs>
+           </b-tabs> -->
        </b-card>
 
        
@@ -278,11 +246,14 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           size : "",
           variant : "",
           items : [],
+          bills : [],
+          gains : [],
           totalExpense : 500,
           Total_Amount: 0,
           Total_Credit: 0,
-          Checking_Account: 300,
-          Savings_Account: 0,
+          Total_Bills: 0,
+          Safe_Budget: 0,
+          Chequing_Account: 0,
           selected: null,
           Transaction_Options: [
             { value: '10', text: '10' },
@@ -290,7 +261,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             { value: '30', text: '30' }
           ],
           Accounts: [
-            {text: 'Checking' },
+            {text: 'Chequing' },
             {text: 'Saving' },
           ],
           Saving_Transations: 'off',
@@ -308,37 +279,30 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
           //Methods go here. Comma separated
           buttonEventExpense(){
 
-            this.modalShowExpense = !this.modalShowExpense;
-            // this.spendLittle = !this.spendLittle;
-
             var numItems = this.items.length;
             this.items.push({input1 : this.text1, input2 : this.text2});
             this.tabIndex++;
             this.Total_Credit += Number(this.text2);
-            this.differenceExpense = this.text4 - this.text2;
+          },
 
-          //   if (this.differenceExpense <= 0 && this.differenceExpense >= -99){
-          //       console.log("Spend Too Much");
-          //       this.spendLittle = !this.spendLittle;
-          //  }
+          buttonEventBill(){
 
-          //   if (this.differenceExpense <= -100){
-          //     console.log("Spend Way Too Much");
-          //     this.spendLots = !this.spendLots;
-          //   }
-
-
+            var numItems = this.bills.length;
+            this.bills.push({input1 : this.text1, input2 : this.text2});
+            this.tabIndex++;
+            this.Total_Bills = Number(this.text2) + Number(this.Total_Credit);
+            this.Safe_Budget -= Number(this.Total_Bills);
           },
 
           buttonEventIncome(){
-
-            this.modalShowIncome = !this.modalShowIncome;
-
+            
             var numItems = this.items.length;
             this.items.push({input1 : this.text3, input2 : this.text4});
             this.tabIndex++;
-            this.Total_Amount = Number(this.Savings_Account) + Number(this.Checking_Account);
-            this.Checking_Account += Number(this.text4);
+            this.Total_Amount = Number(this.Chequing_Account);
+            this.Chequing_Account += Number(this.text4);
+            this.Safe_Budget += Number(this.text4);
+
           }
 
         }
