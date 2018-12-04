@@ -34,9 +34,9 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
   <body>
 
     <!-- Our application root element which contains all bootstrap-Vue elements -->
-    <div id="app" style="background-color:red">
+    <div id="app" style="background-color:yellow">
 
-      <h2>Scotiabank App<b-badge>V-1.5</b-badge></h2>
+      <h2>Budget $afe</h2>
 
       <!-- <b-modal v-model="modalShowExpense">
         New Entry!<br>
@@ -277,8 +277,7 @@ https://developer.okta.com/blog/2017/09/06/build-a-cryptocurrency-comparison-sit
             this.items.push({input1 : this.text1, input2 : this.text2});
             this.tabIndex++;
             this.Total_Credit += Number(this.text2);
-            this.Total_Bills = Number(this.text2) + Number(this.Total_Credit);
-            this.Safe_Budget -= Number(this.Total_Bills);
+            this.Chequing_Account -= Number(this.text2);
           },
 
           buttonEventBill(){
